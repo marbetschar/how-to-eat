@@ -3,15 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 
 import NameForm from './components/NameForm';
+import Button from '@material-ui/core/Button';
 
 function App() {
   return (
     <div className="App">
+      <Button variant="contained" color="primary">
+      Hello World
+    </Button>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <NameForm />
         <a
           className="App-link"
