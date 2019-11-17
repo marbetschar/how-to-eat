@@ -92,15 +92,11 @@ body {
   display: none;
 }
 
-.MuiInputLabel-formControl, .MuiSelect-selectMenu {
-  margin-top: -16px;
-}
-
 .addFoodForm input {
   height: 35px;
 }
 
-.MuiInputLabel-animated {
-  margin-top: -8px;
-}
+.MuiSelect-selectMenu {
 
+  margin-top: 16px;
+}
