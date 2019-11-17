@@ -57,6 +57,25 @@ function App() {
         setFoodToAdd(false);
     };
 
+    const handleCalculate = () => {
+        var foodNames = foodList.map((foodItem) => { return foodItem.foodName });
+        
+        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
+        .then(apiResponse => {
+            var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
+            var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
+            
+            var menuForDay = [];
+            while( groupedSumByFoodCategoryContainsFood(groupedSum) ){
+                menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
+            }
+            console.log(menuForDay);
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+    };
+
     const removeItemFromList = (index) => {
         console.log('item', index);
         console.log('size', foodList.length);
@@ -109,6 +128,7 @@ function App() {
                 </Table>
             }
         </div>
+        <Button onClick={handleCalculate}>Calculate</Button>
     </div>
   );
 }

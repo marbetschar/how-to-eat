@@ -1,14 +1,15 @@
 import {
     FoodCategory,
-    FoodCategoryPriorityPercentage
+    FoodCategoryPriorityPercentage,
+    DailyMinimalCalories
 } from './constants';
 
-export function groupedSumByFoodCategory(availableFood){
+export function groupedSumByFoodCategory(availableFood, apiResponse){
     var groupedSum = {};
 
     for( var i = 0; i < availableFood.length; i++ ){
         var food = availableFood[i];
-        var response = responses[food.name];
+        var response = apiResponse[food.name];
 
         if( response.ratio ){
             food.calories = parseInt(response.calories) * parseFloat(response.ratio);
@@ -67,7 +68,7 @@ export function planFoodForOneDay(groupedSum, overallCaloriesNeeded){
                 var food = available.food[Math.floor(Math.random() * available.food.length)];
                 
                 if( food.totalCalories >= caloriesNeeded ){
-                    plannedFood = {
+                    var plannedFood = {
                         name: food.name,
                         unit: food.unit,
                         calories: food.calories,
@@ -87,7 +88,7 @@ export function planFoodForOneDay(groupedSum, overallCaloriesNeeded){
                     }
 
                 } else if( food.totalCalories > 0 ){
-                    plannedFood = {
+                    var plannedFood = {
                         name: food.name,
                         unit: food.unit,
                         calories: food.calories,

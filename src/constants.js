@@ -28,7 +28,7 @@ FoodCategoryPriority[FoodCategory.VEGETABLES_FRUITS] = HealthyMealRatio[FoodCate
 FoodCategoryPriority[FoodCategory.FISH_MEET_DIARY] = HealthyMealRatio[FoodCategory.FISH_MEET_DIARY] * ShelfLifeRatio[FoodCategory.FISH_MEET_DIARY];
 FoodCategoryPriority[FoodCategory.SWEETS] = HealthyMealRatio[FoodCategory.SWEETS] * ShelfLifeRatio[FoodCategory.SWEETS];
 
-export const FoodCategoryPrioritySum = 0;
+export let FoodCategoryPrioritySum = 0;
 for (var key of Object.keys(FoodCategoryPriority)) {
     FoodCategoryPrioritySum += FoodCategoryPriority[key];
 }
