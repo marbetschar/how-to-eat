@@ -18,11 +18,8 @@ export function groupedSumByFoodCategory(availableFood, apiResponse){
             food.calories = parseInt(response.calories);
             food.totalCalories = food.quantity * food.calories / 100;
         }
-        
         food.category = response.foodcategory;
-        if( food.name == 'apple'){
-            console.log('apple:', food, 'ratio:', response.ratio, 'calories:', food.calories, food.totalCalories);
-        }
+
         if( !groupedSum[response.foodcategory] ){
             groupedSum[response.foodcategory] = {
                 totalCalories: 0,

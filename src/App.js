@@ -58,13 +58,18 @@ function App() {
     };
 
     const handleCalculate = () => {
-        console.log(foodList);
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
-        console.log('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","));
         fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
-        .then(apiResponse => {
-            console.log('foodList:', foodList);
-            var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
+        .then(raw => {
+            return raw.json();
+        }).then(apiResponse => {
+            var response = {};
+            for( var i = 0; i < apiResponse.length; i++ ){
+                var item = apiResponse[i];
+                response[item.foodname] = item;
+            }
+
+            var groupedSum = groupedSumByFoodCategory(foodList, response);
             var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
             
             var menuForDay = [];
