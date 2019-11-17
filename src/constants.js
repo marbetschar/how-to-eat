@@ -1,5 +1,5 @@
 export const DailyMinimalCalories = {
-    ADULT: 2000,
+    ADULT: 1000,
     CHILD: 500
 };
 
