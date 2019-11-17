@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     groupedSumByFoodCategory,
     dailyMinimalCaloriesFor,
@@ -7,7 +7,7 @@ import {
 } from './functions';
 import './App.css';
 
-import {Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell} from "@material-ui/core";
+import { Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
 
 function App() {
 
@@ -16,7 +16,8 @@ function App() {
     const [foodCount, setFoodCount] = useState(0);
     const [foodToAdd, setFoodToAdd] = useState(false);
     const [foodList, setFoodList] = useState([]);
-    const [result, setResult] =useState([]);
+    const [result, setResult] = useState([]);
+    const [maxResultIndex, setMaxResultIndex] = useState(0);
 
     const addAdult = () => {
         setAdultCount(adultCount + 1);
@@ -61,29 +62,37 @@ function App() {
     const handleCalculate = () => {
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
         fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
-        .then(raw => {
-            return raw.json();
-        }).then(apiResponse => {
-            var response = {};
-            for( var i = 0; i < apiResponse.length; i++ ){
-                var item = apiResponse[i];
-                response[item.foodname] = item;
-            }
+            .then(raw => {
+                return raw.json();
+            }).then(apiResponse => {
+                var response = {};
+                for (var i = 0; i < apiResponse.length; i++) {
+                    var item = apiResponse[i];
+                    response[item.foodname] = item;
+                }
 
-            var groupedSum = groupedSumByFoodCategory(foodList, response);
-            var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
-            
-            var menuForDay = [];
-            while( groupedSumByFoodCategoryContainsFood(groupedSum) ){
-                menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
-            }
+                var groupedSum = groupedSumByFoodCategory(foodList, response);
+                var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
 
-            console.log(menuForDay);
-            setResult(menuForDay);
-        })
-        .catch((error) => {
-            console.error(error);
-        })
+                var menuForDay = [];
+                while (groupedSumByFoodCategoryContainsFood(groupedSum)) {
+                    menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
+                }
+
+                console.log(menuForDay);
+                setResult(menuForDay);
+                const maxIndex;
+
+                menuForDay.forEach(element => {
+                    if(maxIndex < (Object.keys(element).length -1 )){
+                        maxIndex = (Object.keys(element).length - 1);
+                    }
+                });
+                setMaxResultIndex(maxIndex);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
     };
 
     const removeItemFromList = (index) => {
@@ -94,72 +103,78 @@ function App() {
     };
 
     return (
-    <div className="App">
-        <div className="header"><h1>How to eat</h1></div>
-        <div className="people">
-            <div className="addPeopleButtonsContainer">
-            <Button onClick={addAdult}>Add an adult</Button>
-            <Button onClick={addChild}>Add a child</Button>
-            </div>
-            <div className="listPeople">
-            <p>Adults: {adultCount} <Button onClick={removeAdult}>-</Button></p><br/>
-            <p>Children: {childCount} <Button onClick={removeChild}>-</Button></p>
-            </div>
-        </div>
-        <div className="addFood">
-            <Button onClick={addFood}>Add food</Button>
-            <p>Food count in list: {foodCount}</p>
-            {foodToAdd &&
-                <div className="addFoodForm">
-                    <TextField id="foodName" placeholder="food name" />
-                    <TextField id="quantity" type="number" placeholder="quantity" />
-                    <Select id="unit">
-                        <MenuItem value="gr">grams</MenuItem>
-                        <MenuItem value="piece">pieces</MenuItem>
-                    </Select>
-                    <Button onClick={handleSubmit}>Add</Button>
+        <div className="App">
+            <div className="header"><h1>How to eat</h1></div>
+            <div className="people">
+                <div className="addPeopleButtonsContainer">
+                    <Button onClick={addAdult}>Add an adult</Button>
+                    <Button onClick={addChild}>Add a child</Button>
                 </div>
-            }
-        </div>
-        <div className="listFood">
-            {foodList.length > 0 &&
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell><b>Food name</b></TableCell>
-                            <TableCell><b>Quantity</b></TableCell>
-                            <TableCell><b>Unit</b></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {foodList.map(foodItem =>
+                <div className="listPeople">
+                    <p>Adults: {adultCount} <Button onClick={removeAdult}>-</Button></p><br />
+                    <p>Children: {childCount} <Button onClick={removeChild}>-</Button></p>
+                </div>
+            </div>
+            <div className="addFood">
+                <Button onClick={addFood}>Add food</Button>
+                <p>Food count in list: {foodCount}</p>
+                {foodToAdd &&
+                    <div className="addFoodForm">
+                        <TextField id="foodName" placeholder="food name" />
+                        <TextField id="quantity" type="number" placeholder="quantity" />
+                        <Select id="unit">
+                            <MenuItem value="gr">grams</MenuItem>
+                            <MenuItem value="piece">pieces</MenuItem>
+                        </Select>
+                        <Button onClick={handleSubmit}>Add</Button>
+                    </div>
+                }
+            </div>
+            <div className="listFood">
+                {foodList.length > 0 &&
+                    <Table>
+                        <TableHead>
                             <TableRow>
-                                <TableCell>{foodItem.name}</TableCell>
-                                <TableCell>{foodItem.quantity}</TableCell>
-                                <TableCell>{foodItem.unit}</TableCell>
+                                <TableCell><b>Food name</b></TableCell>
+                                <TableCell><b>Quantity</b></TableCell>
+                                <TableCell><b>Unit</b></TableCell>
                             </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            }
-        </div>
-        <Button onClick={handleCalculate}>Calculate</Button>
-        <div>
-            {result.length > 0 &&
-                <Table>
-                    {result.map(resultItem =>
-                        <TableRow>
-                            <TableCell>Day {result.indexOf(resultItem) + 1}</TableCell>
-                            {resultItem.map(foodItem =>                                 
-                                <TableCell>({foodItem.caloriesNeeded} / {foodItem.calories}{foodItem.unit} {foodItem.name} </TableCell>  
+                        </TableHead>
+                        <TableBody>
+                            {foodList.map(foodItem =>
+                                <TableRow>
+                                    <TableCell>{foodItem.name}</TableCell>
+                                    <TableCell>{foodItem.quantity}</TableCell>
+                                    <TableCell>{foodItem.unit}</TableCell>
+                                </TableRow>
                             )}
-                        </TableRow>
-                    )}
-                </Table>
-            }
+                        </TableBody>
+                    </Table>
+                }
+            </div>
+            <Button onClick={handleCalculate}>Calculate</Button>
+            <div>
+                {result.length > 0 &&
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                {result.map(resultItem =>
+                                    <TableCell>Day {result.indexOf(resultItem) + 1}</TableCell>
+                                    )}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                            {result.map(resultItem => 
+                                <TableCell>{resultItem.name}</TableCell>
+                            )}
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                }
+            </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default App;
