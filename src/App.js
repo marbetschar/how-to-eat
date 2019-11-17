@@ -46,7 +46,7 @@ function App() {
     const handleSubmit = () => {
         const foodName = document.getElementById('foodName').textContent;
         const quantity = document.getElementById('quantity').value;
-        const unit = document.getElementById('unit').textContent;
+        const unit = document.getElementById('unitSelect').textContent;
 
         const foodObject = {
             name: foodName,
@@ -113,7 +113,7 @@ function App() {
                             <Button onClick={removeAdult}>-</Button>
                         </div>
                         <div class="child">
-                            <p>How man children?</p>
+                            <p>How many children?</p>
                             <Button onClick={addChild}>+</Button>
                             <p>{childCount}</p>
                             <Button onClick={removeChild}>-</Button>
@@ -155,9 +155,8 @@ function App() {
                                 <TextField id="quantity" type="number" placeholder="quantity" />
                                 <FormControl>
                                 <InputLabel id="unit">unit</InputLabel>
-                                <Select id="unit" defaultValue="gr">
+                                <Select id="unitSelect" defaultValue="gr">
                                     <MenuItem value="gr">grams</MenuItem>
-                                    {/* <MenuItem value="piece">pieces</MenuItem> */}
                                 </Select>
                                 </FormControl>
                             </div>

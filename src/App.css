@@ -3,7 +3,7 @@ body {
 }
 
 .App {
-  width: 60%;
+  width: 65%;
   margin: 0 auto;
 }
 
@@ -94,5 +94,13 @@ body {
 
 .MuiInputLabel-formControl, .MuiSelect-selectMenu {
   margin-top: -16px;
+}
+
+.addFoodForm input {
+  height: 35px;
+}
+
+.MuiInputLabel-animated {
+  margin-top: -8px;
 }
 
