@@ -63,9 +63,14 @@ function App() {
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
         console.log('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","));
         fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
-            .then(apiResponse => {
-                console.log('foodList:', foodList);
-                var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
+            .then(raw => {
+                return raw.json();
+            }).then(apiResponse => {
+                var response = {};
+                for( var i = 0; i < apiResponse.length; i++){
+                    response[apiResponse[i].foodname] = apiResponse[i];
+                }
+                var groupedSum = groupedSumByFoodCategory(foodList, response);
                 var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
 
                 var menuForDay = [];
@@ -77,12 +82,10 @@ function App() {
                 var maxIndex = 0;
 
                 menuForDay.forEach(element => {
-                    console.log('element:', element, 'keys:', Object.keys(element));
                     if (maxIndex < (Object.keys(element).length)) {
                         maxIndex = (Object.keys(element).length);
                     }
                 });
-                console.log(maxIndex);
                 setMaxResultIndex(maxIndex);
             })
             .catch((error) => {
@@ -155,7 +158,7 @@ function App() {
                                 <InputLabel id="unit">unit</InputLabel>
                                 <Select id="unit">
                                     <MenuItem value="gr">grams</MenuItem>
-                                    <MenuItem value="piece">pieces</MenuItem>
+                                    {/* <MenuItem value="piece">pieces</MenuItem> */}
                                 </Select>
                                 </FormControl>
                             </div>
