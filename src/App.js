@@ -47,7 +47,7 @@ function App() {
         const unit = document.getElementById('unit').textContent;
 
         const foodObject = {
-            foodName: foodName,
+            name: foodName,
             quantity: quantity,
             unit: unit
         };
@@ -58,10 +58,12 @@ function App() {
     };
 
     const handleCalculate = () => {
-        var foodNames = foodList.map((foodItem) => { return foodItem.foodName });
-        
+        console.log(foodList);
+        var foodNames = foodList.map((foodItem) => { return foodItem.name });
+        console.log('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","));
         fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
         .then(apiResponse => {
+            console.log('foodList:', foodList);
             var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
             var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
             
@@ -119,7 +121,7 @@ function App() {
                     <TableBody>
                         {foodList.map(foodItem =>
                             <TableRow>
-                                <TableCell>{foodItem.foodName}</TableCell>
+                                <TableCell>{foodItem.name}</TableCell>
                                 <TableCell>{foodItem.quantity}</TableCell>
                                 <TableCell>{foodItem.unit}</TableCell>
                             </TableRow>
