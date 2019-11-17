@@ -3,7 +3,7 @@ body {
 }
 
 .App {
-  width: 75%;
+  width: 60%;
   margin: 0 auto;
 }
 
@@ -13,36 +13,34 @@ body {
 
 .header {
   height: 50px;
-  background-color: dodgerblue;
+  background-color: #0070bf;
   color: whitesmoke;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .people {
-  width: 100%;
   text-align: center;
-  margin-top: 30px;
 }
 
 .addPeopleButtonsContainer {
   position: relative;
 }
 
-.addPeopleButtonsContainer > Button {
-  margin: 30px;
-  background-color: dodgerblue !important;
-  border: dodgerblue solid 15px !important;
+.listPeople p, .listPeople button {
+  display: inline-block;
 }
 
-.listPeople {
-  position: relative;
-  float:right;
+.listPeople button {
+  background-color: #0070bf!important;
+}
+.listPeople p {
+  font-size: 30px;
+  padding: 10px;
 }
 
-.listPeople > p > Button {
-  background-color: dodgerblue !important;
-  margin-left: 50px;
-  margin-right: 465px;
+.listPeople .adult p, .listPeople .child p {
+  text-align: left;
 }
 
 .listPeople > p {
@@ -50,39 +48,51 @@ body {
   margin-right: 10px;
 }
 
-
-.addFood {
-  width: 100%;
-  text-align: center;
-  margin-top: 170px;
+.listFood button:first-child {
+  margin-top: 25px;
+  background-color: #0070bf!important;
 }
 
-.addFood > Button {
-  background-color: dodgerblue !important;
-  border: dodgerblue solid 15px !important;
+.addFood {
+  text-align: center;
 }
 
 .listFood {
-  width: 100%;
   text-align: center;
 }
 
 .addFoodForm {
-  width: 100%;
   display: flex;
-  margin-left: 265px;
 }
 
-.addFoodForm > Button {
-  background-color: dodgerblue !important;
+.addFoodForm Button {
+  background-color: #0070bf !important;
 }
 
-.MuiFormControl-root {
-  padding: 0 20px !important;
-  height: 2.188em !important;
+
+.MuiInput-underline {
+  display: inline-flex;
+}
+.result {
+  text-align: center;
+}
+.result button {
+  background-color: #0070bf!important;
+  margin-top: 50px;
+}
+.addFoodForm > div {
+  width: 33.3%;
 }
 
-.MuiSelect-select {
-  min-width: 50px !important;
+.addFoodForm input {
+  padding-left: 10px;
+}
+
+#unit::marker {
+  display: none;
+}
+
+.MuiInputLabel-formControl, .MuiSelect-selectMenu {
+  margin-top: -16px;
 }
 
