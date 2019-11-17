@@ -7,7 +7,7 @@ import {
 } from './functions';
 import './App.css';
 
-import { Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
+import { Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell, InputLabel, FormControl } from "@material-ui/core";
 
 function App() {
 
@@ -61,17 +61,11 @@ function App() {
 
     const handleCalculate = () => {
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
-        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(",").toLowerCase())
-            .then(raw => {
-                return raw.json();
-            }).then(apiResponse => {
-                var response = {};
-                for (var i = 0; i < apiResponse.length; i++) {
-                    var item = apiResponse[i];
-                    response[item.foodname] = item;
-                }
-
-                var groupedSum = groupedSumByFoodCategory(foodList, response);
+        console.log('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","));
+        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
+            .then(apiResponse => {
+                console.log('foodList:', foodList);
+                var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
                 var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
 
                 var menuForDay = [];
@@ -103,62 +97,73 @@ function App() {
         console.log('list', foodList);
     };
 
+
     return (
-        <div className="App">
+        <div className="App col-md-12">
             <div className="header"><h1>How to eat</h1></div>
-            <div className="people">
-                <div className="addPeopleButtonsContainer">
-                    <Button onClick={addAdult}>Add an adult</Button>
-                    <Button onClick={addChild}>Add a child</Button>
-                </div>
-                <div className="listPeople">
-                    <p>Adults: {adultCount} <Button onClick={removeAdult}>-</Button></p><br />
-                    <p>Children: {childCount} <Button onClick={removeChild}>-</Button></p>
-                </div>
-            </div>
-            <div className="addFood">
-                <Button onClick={addFood}>Add food</Button>
-                <p>Food count in list: {foodCount}</p>
-                {foodToAdd &&
-                    <div className="addFoodForm">
-                        <Select id="foodName" defaultValue="apple">
-                            <MenuItem value="apple">apple</MenuItem>
-                            <MenuItem value="rice">rice</MenuItem>
-                            <MenuItem value="pasta">pasta</MenuItem>
-                            <MenuItem value="chocolate">chocolate</MenuItem>
-                            <MenuItem value="pork">pork</MenuItem>
-                            <MenuItem value="beans">beans</MenuItem>
-                        </Select>
-                        <TextField id="quantity" type="number" placeholder="quantity" />
-                        <Select id="unit" defaultValue="gr">
-                            <MenuItem value="gr">grams</MenuItem>
-                            <MenuItem value="piece">pieces</MenuItem>
-                        </Select>
-                        <Button onClick={handleSubmit}>Add</Button>
+            <div class="row">
+                <div className="people col-md-4">
+                    <div className="listPeople">
+                        <div class="adult"><p>How many adults?</p>
+                            <Button onClick={addAdult}>+</Button>
+                            <p>{adultCount}</p>
+                            <Button onClick={removeAdult}>-</Button>
+                        </div>
+                        <div class="child">
+                            <p>How man children?</p>
+                            <Button onClick={addChild}>+</Button>
+                            <p>{childCount}</p>
+                            <Button onClick={removeChild}>-</Button>
+                        </div>
                     </div>
-                }
-            </div>
-            <div className="listFood">
-                {foodList.length > 0 &&
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell><b>Food name</b></TableCell>
-                                <TableCell><b>Quantity</b></TableCell>
-                                <TableCell><b>Unit</b></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {foodList.map(foodItem =>
-                                <TableRow>
-                                    <TableCell>{foodItem.name}</TableCell>
-                                    <TableCell>{foodItem.quantity}</TableCell>
-                                    <TableCell>{foodItem.unit}</TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                }
+                </div>
+                <div class="col-md-8">
+                    <div className="addFood">
+                        <div className="listFood">
+                            <p>Food count in list: {foodCount}</p>
+                            {foodList.length > 0 &&
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell><b>Food name</b></TableCell>
+                                            <TableCell><b>Quantity</b></TableCell>
+                                            <TableCell><b>Unit</b></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {foodList.map(foodItem =>
+                                            <TableRow>
+                                                <TableCell>{foodItem.name}</TableCell>
+                                                <TableCell>{foodItem.quantity}</TableCell>
+                                                <TableCell>{foodItem.unit}</TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            }
+                            <div className="addFoodForm">
+                                <Select id="foodName" defaultValue="apple">
+                                    <MenuItem value="apple">apple</MenuItem>
+                                    <MenuItem value="rice">rice</MenuItem>
+                                    <MenuItem value="pasta">pasta</MenuItem>
+                                    <MenuItem value="chocolate">chocolate</MenuItem>
+                                    <MenuItem value="pork">pork</MenuItem>
+                                    <MenuItem value="beans">beans</MenuItem>
+                                </Select>
+                                <TextField id="quantity" type="number" placeholder="quantity" />
+                                <FormControl>
+                                <InputLabel id="unit">unit</InputLabel>
+                                <Select id="unit">
+                                    <MenuItem value="gr">grams</MenuItem>
+                                    <MenuItem value="piece">pieces</MenuItem>
+                                </Select>
+                                </FormControl>
+                            </div>
+                            <Button onClick={handleSubmit}>Add</Button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <Button onClick={handleCalculate}>Calculate</Button>
             <div>
