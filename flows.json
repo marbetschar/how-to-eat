@@ -1,0 +1,283 @@
+[
+    {
+        "id": "7b5c9bc1.67b77c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a47f84e5.174928",
+        "type": "http in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get Food via url param",
+        "url": "/get",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "67dcffdb.210e58"
+            ]
+        ]
+    },
+    {
+        "id": "67dcffdb.210e58",
+        "type": "cloudant in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "get food by request",
+        "cloudant": "",
+        "database": "how-to-eat",
+        "service": "how-to-eat-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "foodname",
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "954da1d1.265fa"
+            ]
+        ]
+    },
+    {
+        "id": "954da1d1.265fa",
+        "type": "function",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get request, get food, clean up output",
+        "func": "var requestedFood = msg.req.query.name\nvar food = {}; \n\nmsg.payload.forEach(element => (element.foodname === requestedFood) ? food = element : '');\n\n// hide things that we don't want to display\ndelete food._id;\ndelete food._rev;  \n\nmsg.payload = food;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "ad14b611.4cdc18"
+            ]
+        ]
+    },
+    {
+        "id": "ad14b611.4cdc18",
+        "type": "http response",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Request responds",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        },
+        "x": 1150,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8c99cdbf.d51b18",
+        "type": "http in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get All Data",
+        "url": "/all",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "3b2ad288.65459e"
+            ]
+        ]
+    },
+    {
+        "id": "3b2ad288.65459e",
+        "type": "cloudant in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "get all foods",
+        "cloudant": "",
+        "database": "how-to-eat",
+        "service": "how-to-eat-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "foodname",
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "58911cac.a84a94"
+            ]
+        ]
+    },
+    {
+        "id": "58911cac.a84a94",
+        "type": "function",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Display All Data",
+        "func": "msg.payload.forEach(element => delete element._id && delete element._rev);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 700,
+        "y": 400,
+        "wires": [
+            [
+                "ad14b611.4cdc18"
+            ]
+        ]
+    },
+    {
+        "id": "e637f113.55219",
+        "type": "http in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get Food via url",
+        "url": "/get/:name",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "610f04e1.13fef4"
+            ]
+        ]
+    },
+    {
+        "id": "610f04e1.13fef4",
+        "type": "cloudant in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "get food by request",
+        "cloudant": "",
+        "database": "how-to-eat",
+        "service": "how-to-eat-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "foodname",
+        "x": 410,
+        "y": 280,
+        "wires": [
+            [
+                "f47a99f4.01a37"
+            ]
+        ]
+    },
+    {
+        "id": "f47a99f4.01a37",
+        "type": "function",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get request, get food, clean up",
+        "func": "var requestedFood = msg.req.params.name\nvar food = {}; \n\nmsg.payload.forEach(element => (element.foodname === requestedFood) ? food = element : '');\n\n// hide things that we don't want to display\ndelete food._id;\ndelete food._rev;  \n\nmsg.payload = food;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 710,
+        "y": 280,
+        "wires": [
+            [
+                "ad14b611.4cdc18"
+            ]
+        ]
+    },
+    {
+        "id": "3dcd0617.61477a",
+        "type": "function",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get category and display its foods",
+        "func": "var category = msg.req.params.category\n\nvar food = []; \n\nmsg.payload.forEach(element => (element.foodcategory === category) ? food.push(element) : '');\nfood.forEach(item => delete item._id && delete item._rev);\n\nmsg.payload = food;\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 340,
+        "wires": [
+            [
+                "ad14b611.4cdc18"
+            ]
+        ]
+    },
+    {
+        "id": "b28980ef.f0b48",
+        "type": "cloudant in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "get food by request",
+        "cloudant": "",
+        "database": "how-to-eat",
+        "service": "how-to-eat-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "foodname",
+        "x": 410,
+        "y": 340,
+        "wires": [
+            [
+                "3dcd0617.61477a"
+            ]
+        ]
+    },
+    {
+        "id": "60073203.e1d114",
+        "type": "http in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get Category",
+        "url": "/getcat/:category",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "b28980ef.f0b48"
+            ]
+        ]
+    },
+    {
+        "id": "53daa460.015524",
+        "type": "cloudant in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "get food by request",
+        "cloudant": "",
+        "database": "how-to-eat",
+        "service": "how-to-eat-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "foodname",
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "b60303c8.b712c"
+            ]
+        ]
+    },
+    {
+        "id": "b60303c8.b712c",
+        "type": "function",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get request, split names, get foods, clean up",
+        "func": "var names = msg.req.params.names;\nvar nameArr = names.split(',');\nvar foods = [];\n\nmsg.payload.forEach(element => nameArr.forEach(e => (e === element.foodname) ? foods.push(element): ''));\nfoods.forEach(el => delete el._id && delete el._rev)\n\nmsg.payload = foods;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 750,
+        "y": 240,
+        "wires": [
+            [
+                "ad14b611.4cdc18"
+            ]
+        ]
+    },
+    {
+        "id": "b2fdc7c0.6e4b38",
+        "type": "http in",
+        "z": "7b5c9bc1.67b77c",
+        "name": "Get Multiple Foods",
+        "url": "/names/:names",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "53daa460.015524"
+            ]
+        ]
+    }
+]
