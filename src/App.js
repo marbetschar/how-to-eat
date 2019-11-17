@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 
-import {Button, Select, MenuItem, TextField} from "@material-ui/core";
+import {Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell} from "@material-ui/core";
 
 function App() {
 
@@ -51,31 +51,57 @@ function App() {
         setFoodToAdd(false);
     };
 
+    const removeItemFromList = (index) => {
+        console.log('item', index);
+        console.log('size', foodList.length);
+        foodList.splice(index, 1);
+        console.log('list', foodList);
+    };
+
     return (
     <div className="App">
-        <div>
+        <div className="people">
             <Button onClick={addAdult}>Add an adult</Button>
             <Button onClick={addChild}>Add a child</Button>
             <p>adultCount {adultCount} <Button onClick={removeAdult}>-</Button></p>
             <p>childCount {childCount} <Button onClick={removeChild}>-</Button></p>
         </div>
-        <div>
+        <div className="addFood">
             <Button onClick={addFood}>Add food</Button>
             <p>food count {foodCount}</p>
             {foodToAdd &&
                 <div>
-                    <from>
-                        <TextField id="foodName" placeholder="food name" />
-                        <TextField id="quantity" type="number" placeholder="quantity (enter number only)" />
-                        <Select id="unit">
-                            <MenuItem value="kg">kg</MenuItem>
-                            <MenuItem value="piece">piece</MenuItem>
-                        </Select>
-                        <Button onClick={handleSubmit}>Add</Button>
-                    </from>
+                    <TextField id="foodName" placeholder="food name" />
+                    <TextField id="quantity" type="number" placeholder="quantity (enter number only)" />
+                    <Select id="unit">
+                        <MenuItem value="kg">kg</MenuItem>
+                        <MenuItem value="piece">piece</MenuItem>
+                    </Select>
+                    <Button onClick={handleSubmit}>Add</Button>
                 </div>
             }
-
+        </div>
+        <div className="listFood">
+            {foodList.length > 0 &&
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Food name</TableCell>
+                            <TableCell>Quantity</TableCell>
+                            <TableCell>Unit</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {foodList.map(foodItem =>
+                            <TableRow>
+                                <TableCell>{foodItem.foodName}</TableCell>
+                                <TableCell>{foodItem.quantity}</TableCell>
+                                <TableCell>{foodItem.unit}</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            }
         </div>
     </div>
   );
