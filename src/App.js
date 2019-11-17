@@ -16,6 +16,7 @@ function App() {
     const [foodCount, setFoodCount] = useState(0);
     const [foodToAdd, setFoodToAdd] = useState(false);
     const [foodList, setFoodList] = useState([]);
+    const [result, setResult] =useState([]);
 
     const addAdult = () => {
         setAdultCount(adultCount + 1);
@@ -71,7 +72,9 @@ function App() {
             while( groupedSumByFoodCategoryContainsFood(groupedSum) ){
                 menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
             }
+
             console.log(menuForDay);
+            setResult(menuForDay);
         })
         .catch((error) => {
             console.error(error);
@@ -136,6 +139,20 @@ function App() {
             }
         </div>
         <Button onClick={handleCalculate}>Calculate</Button>
+        <div>
+            {result.length > 0 &&
+                <Table>
+                    {result.map(resultItem =>
+                        <TableRow>
+                            <TableCell>Day {result.indexOf(resultItem) + 1}</TableCell>
+                            {resultItem.map(foodItem =>                                 
+                                <TableCell>({foodItem.caloriesNeeded} / {foodItem.calories}{foodItem.unit} {foodItem.name} </TableCell>  
+                            )}
+                        </TableRow>
+                    )}
+                </Table>
+            }
+        </div>
     </div>
   );
 }
