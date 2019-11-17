@@ -154,7 +154,6 @@ function App() {
                                 </Select>
                                 <TextField id="quantity" type="number" placeholder="quantity" />
                                 <FormControl>
-                                <InputLabel id="unit">unit</InputLabel>
                                 <Select id="unitSelect" defaultValue="gr">
                                     <MenuItem value="gr">grams</MenuItem>
                                 </Select>
