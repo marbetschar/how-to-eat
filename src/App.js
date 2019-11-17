@@ -60,7 +60,7 @@ function App() {
 
     const handleCalculate = () => {
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
-        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
+        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(",").toLowerCase())
         .then(raw => {
             return raw.json();
         }).then(apiResponse => {
