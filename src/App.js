@@ -1,4 +1,10 @@
 import React, {useState} from 'react';
+import {
+    groupedSumByFoodCategory,
+    dailyMinimalCaloriesFor,
+    groupedSumByFoodCategoryContainsFood,
+    planFoodForOneDay
+} from './functions';
 import './App.css';
 
 import {Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell} from "@material-ui/core";
@@ -49,6 +55,25 @@ function App() {
         foodList.push(foodObject);
         setFoodCount(foodCount + 1);
         setFoodToAdd(false);
+    };
+
+    const handleCalculate = () => {
+        var foodNames = foodList.map((foodItem) => { return foodItem.foodName });
+        
+        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
+        .then(apiResponse => {
+            var groupedSum = groupedSumByFoodCategory(foodList, apiResponse);
+            var dailyCalories = dailyMinimalCaloriesFor({ adults: adultCount, children: childCount });
+            
+            var menuForDay = [];
+            while( groupedSumByFoodCategoryContainsFood(groupedSum) ){
+                menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
+            }
+            console.log(menuForDay);
+        })
+        .catch((error) => {
+            console.error(error);
+        })
     };
 
     const removeItemFromList = (index) => {
@@ -108,6 +133,7 @@ function App() {
                 </Table>
             }
         </div>
+        <Button onClick={handleCalculate}>Calculate</Button>
     </div>
   );
 }

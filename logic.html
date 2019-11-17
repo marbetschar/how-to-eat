@@ -1,9 +1,91 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
     </head>
     <body>
+        <script src="constants.js"></script>
+        <script src="mocks.js"></script>
+        <script src="functions.js"></script>
+        <script>
+            // retrieve all data from api
+            var groupedSum = groupedSumByFoodCategory(query.food);
+            var dailyCalories = dailyMinimalCaloriesFor({ adults: query.people.adults, children: query.people.children });
+            
+            var menuForDay = [];
+            while( groupedSumByFoodCategoryContainsFood(groupedSum) ){
+                menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
+            }
+            console.log(menuForDay);
 
+/*
+            var dailyDemand = {
+                adult: 1000,
+                child: 500
+            };
+
+            var totalDemandPerDay = {};
+            for (var key of Object.keys(nutritionCategories)) {
+                var nutritionCategory = nutritionCategories[key];
+                totalDemandPerDay[nutritionCategory] = (query.people.adults * dailyDemand.adult + query.people.children * dailyDemand.child) / ratio.percentage[nutritionCategory];
+            }
+            console.log('totalDemandPerDay:', totalDemandPerDay);
+
+            function isStillFoodAvailable(availableByCategory){
+                
+                return false;
+            }
+
+            dailyResults = [];
+            function foodForDay(availableByCategory, demandByCategory, percentagesByCategory){
+                /* [{
+                    name: "apple",
+                    unit: "pieces",
+                    quantity: 4,
+                    calories: -1,
+                    category: null
+                }] */
+                //console.log('availableByCategory1:', availableByCategory);
+
+                // sweets
+                // fleisch
+                // gemüse
+                // kohlehydrate
+/*
+                var usage = [];
+
+                for (var key of [nutritionCategories.sweets, nutritionCategories.fishMeatDairy, nutritionCategories.vegetablesFruits, nutritionCategories.carboHydrates]) {
+                    var demand = {
+                        absolute: demandByCategory[key],
+                        percentage: percentagesByCategory[key]
+                    };
+                    var available = availableByCategory[key];
+
+                    if( available && available.totalCalories){
+                        var food = available.availableFood[Math.floor(Math.random()* available.availableFood.length)];
+                        if( food.totalCalories >= )
+                    }
+
+
+
+                    console.log('key:', key, 'availableByCategory:', );
+                }
+            }
+
+            console.log(foodForDay(availableByCategory, totalDemandPerDay, ratio.percentage));
+
+
+            // while( isStillFoodAvailable(availableByCategory) ){
+                
+            // }
+
+            console.log('ratio:', ratio);
+*/
+            /*carbohydrates => cbhd
+vegetables and fruits => vefr
+fish meat and dairy products => fnda
+sweets => swet (edited) */
+
+        </script>
     </body>
 </html>
