@@ -44,7 +44,7 @@ function App() {
     };
 
     const handleSubmit = () => {
-        const foodName = document.getElementById('foodName').value;
+        const foodName = document.getElementById('foodName').textContent;
         const quantity = document.getElementById('quantity').value;
         const unit = document.getElementById('unit').textContent;
 
@@ -123,9 +123,16 @@ function App() {
                 <p>Food count in list: {foodCount}</p>
                 {foodToAdd &&
                     <div className="addFoodForm">
-                        <TextField id="foodName" placeholder="food name" />
+                        <Select id="foodName" defaultValue="apple">
+                            <MenuItem value="apple">apple</MenuItem>
+                            <MenuItem value="rice">rice</MenuItem>
+                            <MenuItem value="pasta">pasta</MenuItem>
+                            <MenuItem value="chocolate">chocolate</MenuItem>
+                            <MenuItem value="pork">pork</MenuItem>
+                            <MenuItem value="beans">beans</MenuItem>
+                        </Select>
                         <TextField id="quantity" type="number" placeholder="quantity" />
-                        <Select id="unit">
+                        <Select id="unit" defaultValue="gr">
                             <MenuItem value="gr">grams</MenuItem>
                             <MenuItem value="piece">pieces</MenuItem>
                         </Select>
@@ -167,7 +174,7 @@ function App() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Array.apply(null, Array(maxResultIndex)).map((value, i) => {                                
+                            {Array.apply(null, Array(maxResultIndex)).map((value, i) => {
                                     return (<TableRow>
                                         {result.map(resultItem => {
                                             var element = resultItem[Object.keys(resultItem)[i]];
