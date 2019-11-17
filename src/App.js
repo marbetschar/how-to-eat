@@ -164,11 +164,7 @@ function App() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                            {result.map(resultItem => 
-                                <TableCell>{resultItem.name}</TableCell>
-                            )}
-                            </TableRow>
+                            //TODO i need a for loop maxResultIndex field
                         </TableBody>
                     </Table>
                 }
