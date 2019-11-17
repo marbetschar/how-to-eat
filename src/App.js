@@ -145,8 +145,7 @@ function App() {
                                 </Table>
                             }
                             <div className="addFoodForm">
-                                <Select id="foodName" defaultValue="apple">
-                                    <MenuItem value="apple">apple</MenuItem>
+                                <Select id="foodName" defaultValue="rice">
                                     <MenuItem value="rice">rice</MenuItem>
                                     <MenuItem value="pasta">pasta</MenuItem>
                                     <MenuItem value="chocolate">chocolate</MenuItem>
@@ -156,7 +155,7 @@ function App() {
                                 <TextField id="quantity" type="number" placeholder="quantity" />
                                 <FormControl>
                                 <InputLabel id="unit">unit</InputLabel>
-                                <Select id="unit">
+                                <Select id="unit" defaultValue="gr">
                                     <MenuItem value="gr">grams</MenuItem>
                                     {/* <MenuItem value="piece">pieces</MenuItem> */}
                                 </Select>
