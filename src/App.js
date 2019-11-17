@@ -61,8 +61,7 @@ function App() {
 
     const handleCalculate = () => {
         var foodNames = foodList.map((foodItem) => { return foodItem.name });
-        console.log('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","));
-        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(","))
+        fetch('https://how-to-eat.eu-gb.cf.appdomain.cloud/names/' + foodNames.join(",").toLowerCase())
             .then(raw => {
                 return raw.json();
             }).then(apiResponse => {
@@ -149,7 +148,7 @@ function App() {
                                     <MenuItem value="rice">rice</MenuItem>
                                     <MenuItem value="pasta">pasta</MenuItem>
                                     <MenuItem value="chocolate">chocolate</MenuItem>
-                                    <MenuItem value="pork">pork</MenuItem>
+                                    <MenuItem value="meat">meat</MenuItem>
                                     <MenuItem value="beans">beans</MenuItem>
                                 </Select>
                                 <TextField id="quantity" type="number" placeholder="quantity" />
@@ -182,7 +181,7 @@ function App() {
                                     return (<TableRow>
                                         {result.map(resultItem => {
                                             var element = resultItem[Object.keys(resultItem)[i]];
-                                            console.log(element);
+                                            
                                             if (element) {
                                                 var cals = element.totalCalories / element.calories;
                                                 if(element.ratio){
