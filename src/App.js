@@ -81,13 +81,16 @@ function App() {
 
                 console.log(menuForDay);
                 setResult(menuForDay);
-                var maxIndex;
+                var maxIndex = 0;
 
+                console.log('menForDay:', menuForDay);
                 menuForDay.forEach(element => {
-                    if(maxIndex < (Object.keys(element).length -1 )){
-                        maxIndex = (Object.keys(element).length - 1);
+                    console.log('element:', element, 'keys:', Object.keys(element));
+                    if (maxIndex < (Object.keys(element).length)) {
+                        maxIndex = (Object.keys(element).length);
                     }
                 });
+                console.log(maxIndex);
                 setMaxResultIndex(maxIndex);
             })
             .catch((error) => {
@@ -160,13 +163,23 @@ function App() {
                             <TableRow>
                                 {result.map(resultItem =>
                                     <TableCell>Day {result.indexOf(resultItem) + 1}</TableCell>
-                                    )}
+                                )}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            { Array.apply(null, Array(maxResultIndex)).forEach((i) => {
-                                alert(i);
-                            }) }
+                            {Array.apply(null, Array(maxResultIndex)).map((value, i) => {                                
+                                    return (<TableRow>
+                                        {result.map(resultItem => {
+                                            var element = resultItem[Object.keys(resultItem)[i]];
+                                            console.log(element);
+                                            if (element) {
+                                                return (<TableCell>{Math.round(element.totalCalories / element.calories)} {element.unit} {element.name}  </TableCell>)
+                                            } else {
+                                                return (<TableCell> </TableCell>);
+                                            }
+                                        })}
+                                    </TableRow>);
+                            })}
                         </TableBody>
                     </Table>
                 }
