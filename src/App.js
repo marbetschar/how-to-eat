@@ -7,7 +7,7 @@ import {
 } from './functions';
 import './App.css';
 
-import { Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
+import { Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell, InputLabel, FormControl } from "@material-ui/core";
 
 function App() {
 
@@ -132,10 +132,13 @@ function App() {
                             <div className="addFoodForm">
                                 <TextField id="foodName" placeholder="food name" />
                                 <TextField id="quantity" type="number" placeholder="quantity" />
+                                <FormControl>
+                                <InputLabel id="unit">unit</InputLabel>
                                 <Select id="unit">
                                     <MenuItem value="gr">grams</MenuItem>
                                     <MenuItem value="piece">pieces</MenuItem>
                                 </Select>
+                                </FormControl>
                             </div>
                             <Button onClick={handleSubmit}>Add</Button>
                         </div>
