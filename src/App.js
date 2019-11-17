@@ -81,7 +81,7 @@ function App() {
 
                 console.log(menuForDay);
                 setResult(menuForDay);
-                const maxIndex;
+                var maxIndex;
 
                 menuForDay.forEach(element => {
                     if(maxIndex < (Object.keys(element).length -1 )){
@@ -164,7 +164,9 @@ function App() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            //TODO i need a for loop maxResultIndex field
+                            { Array.apply(null, Array(maxResultIndex)).forEach((i) => {
+                                alert(i);
+                            }) }
                         </TableBody>
                     </Table>
                 }
