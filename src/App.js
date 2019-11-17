@@ -79,11 +79,9 @@ function App() {
                     menuForDay.push(planFoodForOneDay(groupedSum, dailyCalories));
                 }
 
-                console.log(menuForDay);
                 setResult(menuForDay);
                 var maxIndex = 0;
 
-                console.log('menForDay:', menuForDay);
                 menuForDay.forEach(element => {
                     console.log('element:', element, 'keys:', Object.keys(element));
                     if (maxIndex < (Object.keys(element).length)) {
@@ -180,7 +178,13 @@ function App() {
                                             var element = resultItem[Object.keys(resultItem)[i]];
                                             console.log(element);
                                             if (element) {
-                                                return (<TableCell>{Math.round(element.totalCalories / element.calories)} {element.unit} {element.name}  </TableCell>)
+                                                var cals = element.totalCalories / element.calories;
+                                                if(element.ratio){
+                                                    cals = cals / element.ratio;
+                                                } else {
+                                                    cals = cals * 100;
+                                                }
+                                                return (<TableCell>{Math.round(cals * 100) / 100 } {element.unit} {element.name}  </TableCell>)
                                             } else {
                                                 return (<TableCell> </TableCell>);
                                             }

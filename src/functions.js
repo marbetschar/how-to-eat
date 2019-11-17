@@ -12,6 +12,7 @@ export function groupedSumByFoodCategory(availableFood, apiResponse){
         var response = apiResponse[food.name];
 
         if( response.ratio ){
+            food.ratio = parseFloat(response.ratio);
             food.calories = parseInt(response.calories) * parseFloat(response.ratio);
             food.totalCalories = food.quantity * food.calories;
         } else {
@@ -70,7 +71,8 @@ export function planFoodForOneDay(groupedSum, overallCaloriesNeeded){
                         unit: food.unit,
                         calories: food.calories,
                         totalCalories: caloriesNeeded,
-                        category: food.category
+                        category: food.category,
+                        ratio: food.ratio
                     };
                     available.totalCalories -= caloriesNeeded;
                     food.totalCalories -= caloriesNeeded;
@@ -90,7 +92,8 @@ export function planFoodForOneDay(groupedSum, overallCaloriesNeeded){
                         unit: food.unit,
                         calories: food.calories,
                         totalCalories: food.totalCalories,
-                        category: food.category
+                        category: food.category,
+                        ratio: food.ratio
                     };
                     available.totalCalories -= food.totalCalories;
                     caloriesNeeded -= food.totalCalories;
