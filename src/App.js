@@ -1,4 +1,10 @@
 import React, {useState} from 'react';
+import {
+    groupedSumByFoodCategory,
+    dailyMinimalCaloriesFor,
+    groupedSumByFoodCategoryContainsFood,
+    planFoodForOneDay
+} from './functions';
 import './App.css';
 
 import {Button, Select, MenuItem, TextField, Table, TableBody, TableHead, TableRow, TableCell} from "@material-ui/core";
