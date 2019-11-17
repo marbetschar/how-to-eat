@@ -156,6 +156,7 @@ function App() {
                                 <FormControl>
                                 <Select id="unitSelect" defaultValue="gr">
                                     <MenuItem value="gr">grams</MenuItem>
+                                    <MenuItem value="piece">pieces</MenuItem>
                                 </Select>
                                 </FormControl>
                             </div>
