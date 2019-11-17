@@ -87,22 +87,27 @@ function App() {
 
     return (
     <div className="App">
+        <div className="header"><h1>How to eat</h1></div>
         <div className="people">
+            <div className="addPeopleButtonsContainer">
             <Button onClick={addAdult}>Add an adult</Button>
             <Button onClick={addChild}>Add a child</Button>
-            <p>adultCount {adultCount} <Button onClick={removeAdult}>-</Button></p>
-            <p>childCount {childCount} <Button onClick={removeChild}>-</Button></p>
+            </div>
+            <div className="listPeople">
+            <p>Adults: {adultCount} <Button onClick={removeAdult}>-</Button></p><br/>
+            <p>Children: {childCount} <Button onClick={removeChild}>-</Button></p>
+            </div>
         </div>
         <div className="addFood">
             <Button onClick={addFood}>Add food</Button>
-            <p>food count {foodCount}</p>
+            <p>Food count in list: {foodCount}</p>
             {foodToAdd &&
-                <div>
+                <div className="addFoodForm">
                     <TextField id="foodName" placeholder="food name" />
-                    <TextField id="quantity" type="number" placeholder="quantity (enter number only)" />
+                    <TextField id="quantity" type="number" placeholder="quantity" />
                     <Select id="unit">
-                        <MenuItem value="kg">kg</MenuItem>
-                        <MenuItem value="piece">piece</MenuItem>
+                        <MenuItem value="gr">grams</MenuItem>
+                        <MenuItem value="piece">pieces</MenuItem>
                     </Select>
                     <Button onClick={handleSubmit}>Add</Button>
                 </div>
@@ -113,9 +118,9 @@ function App() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Food name</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Unit</TableCell>
+                            <TableCell><b>Food name</b></TableCell>
+                            <TableCell><b>Quantity</b></TableCell>
+                            <TableCell><b>Unit</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
